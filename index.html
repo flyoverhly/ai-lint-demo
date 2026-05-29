@@ -1,14 +1,1069 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/ai-lint-demo/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ai-lint-demo</title>
-    <script type="module" crossorigin src="/ai-lint-demo/assets/index-DFF7sW0Y.js"></script>
-    <link rel="stylesheet" crossorigin href="/ai-lint-demo/assets/index-CFSpDHxy.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业研发数字基础设施：产品规格书（Datasheet）全流程知识资产平台建设提案</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for formula rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981', // Emerald
+                            600: '#059669',
+                            900: '#064e3b',
+                        },
+                        tech: {
+                            slate: '#0f172a',
+                            panel: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glow-green {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.2);
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Scanline animation */
+        @keyframes scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(300%); opacity: 0; }
+        }
+        .scanner-line {
+            animation: scan 2s linear infinite;
+            animation-play-state: paused;
+        }
+        .scanning .scanner-line {
+            animation-play-state: running;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-slate-950">
+
+    <!-- Top Glow Effect -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-b from-emerald-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none rounded-full"></div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </span>
+                <div>
+                    <span class="font-bold text-lg tracking-wide bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">Meoda AI-Datasheet</span>
+                    <span class="hidden md:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-slate-800 text-emerald-400 rounded border border-slate-700">R&D Infra v1.2</span>
+                </div>
+            </div>
+            <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-400">
+                <a href="#strategy" class="hover:text-slate-100 transition-colors">战略定位</a>
+                <a href="#structural" class="hover:text-slate-100 transition-colors">核心瓶颈</a>
+                <a href="#architecture" class="hover:text-slate-100 transition-colors">架构设计</a>
+                <a href="#roi" class="hover:text-slate-100 transition-colors">量化 ROI</a>
+                <a href="#demo" class="hover:text-slate-100 transition-colors">原型演示</a>
+                <a href="#roadmap" class="hover:text-slate-100 transition-colors">落地路线</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#roi-calculator" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-emerald-950 bg-emerald-400 hover:bg-emerald-300 transition-all rounded-lg glow-green">
+                    估算企业 ROI
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+
+        <!-- HERO SECTION -->
+        <section class="text-center py-16 lg:py-24 relative">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-8">
+                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                <span>研发数字化基础设施立项提案</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight max-w-5xl mx-auto">
+                产品规格书（Datasheet）<br/>
+                <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">全流程知识资产平台建设</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                重构企业技术知识流，将高密度的规格书从“离线文件”升级为“数字化可计算数据对象”，打造可量化、更安全的研发资产大底座。
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#demo" class="w-full sm:w-auto px-8 py-4 bg-emerald-400 text-emerald-950 font-bold rounded-xl shadow-lg hover:bg-emerald-300 transition-all text-center glow-green">
+                    体验交互式原型 (Demo)
+                </a>
+                <a href="#strategy" class="w-full sm:w-auto px-8 py-4 bg-slate-900 text-slate-200 border border-slate-800 font-semibold rounded-xl hover:bg-slate-800 hover:text-white transition-all text-center">
+                    深度浏览提案
+                </a>
+            </div>
+        </section>
+
+        <!-- STRATEGY SECTION -->
+        <section id="strategy" class="py-12 scroll-mt-20">
+            <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-2xl">
+                <!-- Background grid design pattern -->
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-25"></div>
+                
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7">
+                        <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">CORE VISION / 核心战略定位</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-2 mb-4">
+                            这不是常规 AI 尝鲜项目，<br class="hidden sm:inline" /> 而是面向长远的“研发技术底座建设”
+                        </h2>
+                        <blockquote class="border-l-4 border-emerald-500 pl-4 my-6 italic text-slate-300 text-base leading-relaxed">
+                            “本项目的终极价值，是让产品规格书（Datasheet）第一次成为企业可计算、可审计、可复用的工程知识资产，彻底打通研发、质量、市场到客户的技术流数据供应链。”
+                        </blockquote>
+                        <div class="flex items-start space-x-3 text-slate-400 text-sm">
+                            <span class="p-1 bg-indigo-500/10 border border-indigo-500/20 rounded text-indigo-400 mt-0.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            </span>
+                            <p>
+                                <strong class="text-slate-200">组织保障：</strong> 本方案不试图用 AI 替代工程师，而是将 AI 部署为“高密度工程文档的协同审计助手”，最大化减少组织内部推广阻力。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-full max-w-sm bg-slate-950 border border-slate-800 rounded-xl p-6 relative">
+                            <div class="absolute -top-3 -right-3 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2 py-1 rounded border border-indigo-500/20">
+                                知识可计算化
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest mb-4">重构企业技术知识流</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center pb-2 border-b border-slate-900">
+                                    <span class="text-xs text-slate-400">上游数据采集</span>
+                                    <span class="text-xs font-mono text-emerald-400">结构化录入 (JSON)</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-slate-900">
+                                    <span class="text-xs text-slate-400">技术公式资产</span>
+                                    <span class="text-xs font-mono text-emerald-400">标准 LaTeX 源码</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-slate-900">
+                                    <span class="text-xs text-slate-400">质量守卫拦截</span>
+                                    <span class="text-xs font-mono text-emerald-400">本地 AI 辅助 Review</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-slate-400">数字资产输出</span>
+                                    <span class="text-xs font-mono text-emerald-400">企业高一致性 PDF / API</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STRUCTURAL BOTTLENECK SECTION -->
+        <section id="structural" class="py-12 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">STRUCTURAL BINDING / 痛点剖析</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">传统离线 Word 体系的结构性失效</h2>
+                <p class="text-slate-400 mt-4">
+                    为什么规范 Word 模板无法根本性解决问题？因为传统文档逻辑在底层架构上面对 AI 和自动化数据流存在天然的缺陷。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Pain point 1 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-all duration-300">
+                    <div class="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-200 mb-2">富文本不具备结构化性质</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        数据和电气参数深埋在Word网格或文本段落中。上游的芯片电气规范在跨部门流转时全靠人工复制，不仅耗费工时，极易因点错小数点酿成严重质量事故。
+                    </p>
+                </div>
+                <!-- Pain point 2 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-all duration-300">
+                    <div class="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-200 mb-2">缺乏技术语义层支持</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        由于底层技术非结构化，大模型和传统的比对工具无法对文档进行深度理解。修订版本的对比依然依靠肉眼逐字筛查，无法完成精准到具体参数“格子级”的差异审计。
+                    </p>
+                </div>
+                <!-- Pain point 3 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-all duration-300">
+                    <div class="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-200 mb-2">排版约束缺失，格式容易分叉</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        手工在 Word 中调节换页截断、图表间距、上下标极为耗费精力，且格式随着修订不断失真分叉。Word 转 PDF 时排版脆弱、不合规，严重影响公司对外部高端客户展现的技术严谨形象。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYSTEM ARCHITECTURE SECTION -->
+        <section id="architecture" class="py-12 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">SYSTEM ARCHITECTURE / 架构设计</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">四层高解耦企业级技术架构</h2>
+                <p class="text-slate-400 mt-4">
+                    系统在边界设计上秉持严密的隔离意识，将不确定性的大模型技术与确定性的标准数据库、企业流程进行科学分流。
+                </p>
+            </div>
+
+            <!-- Interative Architecture Display -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12">
+                <!-- Tier interactive buttons -->
+                <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-slate-800 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-6">点击交互查阅各层职责边界</h3>
+                        <div class="space-y-3" id="arch-toggles">
+                            <button onclick="switchArchTab('tier1')" id="btn-tier1" class="arch-toggle-btn w-full text-left p-4 rounded-xl border border-emerald-500/30 bg-slate-950/80 text-white transition-all duration-200">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">层级一：协同与流程层 (飞书妙搭)</span>
+                                    <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded">组织外壳</span>
+                                </div>
+                            </button>
+                            <button onclick="switchArchTab('tier2')" id="btn-tier2" class="arch-toggle-btn w-full text-left p-4 rounded-xl border border-slate-800 hover:border-slate-700 bg-transparent text-slate-400 transition-all duration-200">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">层级二：核心数据层 (规范数据库)</span>
+                                    <span class="text-[10px] font-mono bg-indigo-500/10 text-indigo-400 px-1.5 py-0.5 rounded">工程资产</span>
+                                </div>
+                            </button>
+                            <button onclick="switchArchTab('tier3')" id="btn-tier3" class="arch-toggle-btn w-full text-left p-4 rounded-xl border border-slate-800 hover:border-slate-700 bg-transparent text-slate-400 transition-all duration-200">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">层级三：安全与解析网关 (AI预审)</span>
+                                    <span class="text-[10px] font-mono bg-purple-500/10 text-purple-400 px-1.5 py-0.5 rounded">隐私闭环</span>
+                                </div>
+                            </button>
+                            <button onclick="switchArchTab('tier4')" id="btn-tier4" class="arch-toggle-btn w-full text-left p-4 rounded-xl border border-slate-800 hover:border-slate-700 bg-transparent text-slate-400 transition-all duration-200">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">层级四：统一输出层 (模板渲染)</span>
+                                    <span class="text-[10px] font-mono bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded">标准形象</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-slate-800 hidden lg:block">
+                        <div class="flex items-center space-x-2 text-xs text-slate-500">
+                            <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                            <span>高内聚低耦合系统架构设计</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier dynamic details display -->
+                <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between min-h-[350px] bg-slate-950">
+                    <div id="arch-content">
+                        <!-- Content of Tier 1 (Default) -->
+                        <div id="content-tier1" class="arch-tab-content space-y-6">
+                            <div>
+                                <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest">层级一：协同与流程层 (飞书妙搭)</h4>
+                                <h3 class="text-2xl font-extrabold text-white mt-1">零代码构建组织协同的敏捷工作流</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    依托飞书妙搭作为面向用户的统一交互入口，负责系统前端权限分配、审批流配置、状态流转和待办通知。
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-slate-300">IT 平台职责</div>
+                                        <div class="text-sm text-slate-400 mt-1">负责角色分权、审批流转记录（Workflow Log）与异常推送。</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-emerald-400">管理决策价值</div>
+                                        <div class="text-sm text-slate-400 mt-1">零代码快速上线，免除巨额IT外包与开发成本，业务人员上手无难度。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content of Tier 2 -->
+                        <div id="content-tier2" class="arch-tab-content space-y-6 hidden">
+                            <div>
+                                <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-widest">层级二：核心数据层 (规范数据库)</h4>
+                                <h3 class="text-2xl font-extrabold text-white mt-1">将工程知识从“文档”转化为“数据对象”</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    彻底打破传统Word、Excel文件格式孤岛。将核心芯片技术参数矩阵、特殊公式源码在后台统一进行结构化关系存储。
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-slate-300">IT 平台职责</div>
+                                        <div class="text-sm text-slate-400 mt-1">存储纯净的标准化参数 JSON 树，配合 LaTex 公式原码归类。</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-indigo-400">管理决策价值</div>
+                                        <div class="text-sm text-slate-400 mt-1">数据天然纯度极高，面向 AI 极度友好，为企业搭建可持续沉淀的知识图谱。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content of Tier 3 -->
+                        <div id="content-tier3" class="arch-tab-content space-y-6 hidden">
+                            <div>
+                                <h4 class="text-xs font-bold text-purple-400 uppercase tracking-widest">层级三：安全与解析网关 (AI预审)</h4>
+                                <h3 class="text-2xl font-extrabold text-white mt-1">100% 本地化安全闭环与质量防错机制</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    系统通过内网私有化部署的解析网关服务。在进行历史遗留文档反向结构化时，不产生公有云网络请求，确保技术绝密不出内网。
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-slate-300">IT 平台职责</div>
+                                        <div class="text-sm text-slate-400 mt-1">布局感知解析微服务，融合国产符号识别增强，毫秒级诊断。</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-purple-400">管理决策价值</div>
+                                        <div class="text-sm text-slate-400 mt-1">彻底阻断商业机密外流风险；AI 智能审计大幅降低人为疏忽质量事故成本。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content of Tier 4 -->
+                        <div id="content-tier4" class="arch-tab-content space-y-6 hidden">
+                            <div>
+                                <h4 class="text-xs font-bold text-amber-400 uppercase tracking-widest">层级四：统一输出层 (模板渲染)</h4>
+                                <h3 class="text-2xl font-extrabold text-white mt-1">一键秒级生成高一致性企业技术门面</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    彻底剥离研发人员手动排版的工作负荷。当审批流通过后，后台渲染引擎抓取纯净数据，直接调用网页高一致性渲染模板输出 PDF。
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-slate-300">IT 平台职责</div>
+                                        <div class="text-sm text-slate-400 mt-1">基于标准 HTML/CSS 排版，利用现代网页级渲染组件实现完美分页。</div>
+                                    </div>
+                                    <div class="p-4 bg-slate-900 border border-slate-800 rounded-lg">
+                                        <div class="text-xs font-semibold text-amber-400">管理决策价值</div>
+                                        <div class="text-sm text-slate-400 mt-1">保证对外技术文档高度美观与排版合规，提升国际大客户合作的品牌信任度。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-900 text-xs text-slate-500 flex justify-between items-center">
+                        <span>研发数字底座安全架构规范</span>
+                        <span class="font-mono text-emerald-400">SECURED LOCAL RUNTIME</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAILURE COST CONTROL SECTION -->
+        <section class="py-12 scroll-mt-20">
+            <div class="bg-gradient-to-r from-slate-950 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-10 relative">
+                <div class="absolute top-0 right-1/2 translate-x-1/2 w-full max-w-lg h-full bg-indigo-500/5 blur-3xl rounded-full pointer-events-none"></div>
+                
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">RISK MITIGATION / 失败成本控制</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-2 mb-4">
+                    阶段性成果永久沉淀机制，杜绝“IT 烂尾黑洞”
+                </h2>
+                <p class="text-slate-400 max-w-4xl text-sm leading-relaxed mb-8">
+                    管理层最担心高昂的数字化预算在项目后期中途受阻而全部归零。本系统在方案设计第一天便划分好了“防损止税”底线，确保每一个阶段都能产出具有独立 ROI 的完整组织能力：
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-5 bg-slate-950/80 border border-slate-800 rounded-xl relative overflow-hidden">
+                        <div class="text-xs font-bold text-slate-400 mb-2 font-mono">PHASE 1 终止也获得</div>
+                        <h3 class="text-base font-bold text-white mb-2">结构化芯片参数库</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">所有核心芯片核心电气数据由离线Word搬迁至数据库，实现核心核心研发资产标准化。</p>
+                        <div class="absolute bottom-0 right-0 w-8 h-8 bg-emerald-500/10 text-emerald-400 flex items-center justify-center rounded-tl-xl text-xs font-bold border-l border-t border-slate-800">100%</div>
+                    </div>
+                    <div class="p-5 bg-slate-950/80 border border-slate-800 rounded-xl relative overflow-hidden">
+                        <div class="text-xs font-bold text-slate-400 mb-2 font-mono">PHASE 1 终止也获得</div>
+                        <h3 class="text-base font-bold text-white mb-2">飞书标准审批工作流</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">全流程流转与审计、高管飞书审批闭环已经全部在云端跑通，实现管理标准化规范。</p>
+                        <div class="absolute bottom-0 right-0 w-8 h-8 bg-emerald-500/10 text-emerald-400 flex items-center justify-center rounded-tl-xl text-xs font-bold border-l border-t border-slate-800">100%</div>
+                    </div>
+                    <div class="p-5 bg-slate-950/80 border border-slate-800 rounded-xl relative overflow-hidden">
+                        <div class="text-xs font-bold text-slate-400 mb-2 font-mono">PHASE 1 终止也获得</div>
+                        <h3 class="text-base font-bold text-white mb-2">AI 协同 Review 机制</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">拼写错漏、参数颠倒、电气规范逻辑硬伤自动由 AI 高亮报警拦截， Review 耗时明显下降。</p>
+                        <div class="absolute bottom-0 right-0 w-8 h-8 bg-emerald-500/10 text-emerald-400 flex items-center justify-center rounded-tl-xl text-xs font-bold border-l border-t border-slate-800">100%</div>
+                    </div>
+                    <div class="p-5 bg-slate-950/80 border border-slate-800 rounded-xl relative overflow-hidden">
+                        <div class="text-xs font-bold text-slate-400 mb-2 font-mono">PHASE 1 终止也获得</div>
+                        <h3 class="text-base font-bold text-white mb-2">格子级修订 Diff 系统</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">无需肉眼对比 PDF，后台精准以绿色、红色在多维表格网格中高亮变化数值与修订追溯。</p>
+                        <div class="absolute bottom-0 right-0 w-8 h-8 bg-emerald-500/10 text-emerald-400 flex items-center justify-center rounded-tl-xl text-xs font-bold border-l border-t border-slate-800">100%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROI DYNAMIC CALCULATOR SECTION -->
+        <section id="roi" class="py-12 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">ROI CALCULATOR / 财务效益估算</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">量化运营收益与工时节约模型</h2>
+                <p class="text-slate-400 mt-4">
+                    输入您公司的基本业务特征，实时测算该项目第一年能为您研发和质量管理体系节约多少成本和时间。
+                </p>
+            </div>
+
+            <div id="roi-calculator" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl">
+                <!-- Control Sliders -->
+                <div class="lg:col-span-6 p-6 sm:p-10 space-y-8 bg-slate-950/50">
+                    <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <span class="p-1.5 bg-brand-500/10 text-brand-400 rounded-lg">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </span>
+                        <span>调整企业基本参数</span>
+                    </h3>
+
+                    <!-- Slider 1 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs font-semibold text-slate-400">年新增/修订规格书总量</label>
+                            <span class="text-sm font-bold font-mono text-emerald-400"><span id="val-datasheet-count">50</span> 份/年</span>
+                        </div>
+                        <input type="range" id="slider-datasheet-count" min="10" max="300" value="50" oninput="calculateROI()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+                    </div>
+
+                    <!-- Slider 2 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs font-semibold text-slate-400">当前单份离线校对与手工排版平均耗时</label>
+                            <span class="text-sm font-bold font-mono text-emerald-400"><span id="val-hourly-cost">40</span> 小时/份</span>
+                        </div>
+                        <input type="range" id="slider-hourly-cost" min="10" max="120" value="40" oninput="calculateROI()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+                    </div>
+
+                    <!-- Slider 3 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs font-semibold text-slate-400">高薪工程师综合薪酬成本（含工时社保等折算）</label>
+                            <span class="text-sm font-bold font-mono text-emerald-400"><span id="val-salary-rate">150</span> 元/小时</span>
+                        </div>
+                        <input type="range" id="slider-salary-rate" min="60" max="400" value="150" oninput="calculateROI()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+                    </div>
+                </div>
+
+                <!-- ROI Dashboard Output -->
+                <div class="lg:col-span-6 p-6 sm:p-10 bg-slate-950 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-6 font-mono">ESTIMATED ANNUAL VALUE / 综合边际收益评估</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase font-mono block mb-1">工时节省 (小时/年)</span>
+                                <span class="text-xl sm:text-2xl font-extrabold text-emerald-400 font-mono" id="val-hours-saved">1,800</span>
+                            </div>
+                            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase font-mono block mb-1">交付效率提升 (%)</span>
+                                <span class="text-xl sm:text-2xl font-extrabold text-indigo-400 font-mono" id="val-efficiency-lift">90%</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlight cost savings -->
+                        <div class="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl mb-6 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-emerald-400/80 uppercase font-mono tracking-wider block mb-1">首年直接工时财务成本下降 (元/年)</span>
+                                <span class="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono">¥<span id="val-money-saved">270,000</span></span>
+                            </div>
+                            <span class="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl hidden sm:block">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-900 text-[10px] text-slate-500 flex flex-col sm:flex-row justify-between sm:items-center gap-2 leading-relaxed">
+                        <span>*注：按第一阶段仅AI Review与结构化即可降低85%以上的排版校对精力进行测算。</span>
+                        <span class="font-mono text-emerald-500/80">ROI: HIGH-YIELD INFRASTRUCTURE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE PLAYGROUND (DEMO) SECTION -->
+        <section id="demo" class="py-12 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">INTERACTIVE DEMO / 原型演示</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">可交互式原型现场体验区</h2>
+                <p class="text-slate-400 mt-4">
+                    亲自点击并模拟感受全新技术系统对传统Word非结构化痛点的“降维打击”。
+                </p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12">
+                <!-- Tabs column -->
+                <div class="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-slate-800 p-4 space-y-2 bg-slate-950/40">
+                    <button onclick="switchDemoTab('latex')" id="demo-tab-btn-latex" class="demo-tab-btn w-full text-left p-3 rounded-lg border border-emerald-500/20 bg-slate-900 text-emerald-400 text-sm font-semibold flex items-center space-x-2 transition-all">
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                        <span>01 LaTeX公式在线渲染</span>
+                    </button>
+                    <button onclick="switchDemoTab('review')" id="demo-tab-btn-review" class="demo-tab-btn w-full text-left p-3 rounded-lg border border-transparent hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-sm font-semibold flex items-center space-x-2 transition-all">
+                        <span class="w-1.5 h-1.5 bg-slate-700 rounded-full"></span>
+                        <span>02 AI 辅助 Review 审查</span>
+                    </button>
+                    <button onclick="switchDemoTab('diff')" id="demo-tab-btn-diff" class="demo-tab-btn w-full text-left p-3 rounded-lg border border-transparent hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-sm font-semibold flex items-center space-x-2 transition-all">
+                        <span class="w-1.5 h-1.5 bg-slate-700 rounded-full"></span>
+                        <span>03 精准格子级版本 Diff</span>
+                    </button>
+                    <button onclick="switchDemoTab('print')" id="demo-tab-btn-print" class="demo-tab-btn w-full text-left p-3 rounded-lg border border-transparent hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-sm font-semibold flex items-center space-x-2 transition-all">
+                        <span class="w-1.5 h-1.5 bg-slate-700 rounded-full"></span>
+                        <span>04 模板排版分页一致性</span>
+                    </button>
+                </div>
+
+                <!-- Preview column -->
+                <div class="lg:col-span-9 p-6 sm:p-10 bg-slate-950 flex flex-col justify-between min-h-[480px]">
+                    
+                    <!-- TAB 1: LATEX RENDERER -->
+                    <div id="demo-tab-latex" class="demo-tab-content space-y-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">01. 芯片电气工程数学公式实时渲染</h3>
+                            <p class="text-xs text-slate-400 mt-1">
+                                传统Word极难统一上下标，更无法被 AI 轻易索引。本系统在核心层直接将公式以纯净 LaTeX 源码形式存储：
+                            </p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Input -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-semibold text-slate-400">输入 LaTeX 技术原码（支持修改实时预览）</label>
+                                <textarea id="latex-input" oninput="updateLatexPreview()" class="w-full h-32 bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-emerald-400 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none leading-relaxed">I_{DD} = \frac{V_{IN} - V_{OUT}}{R_{LOAD}}</textarea>
+                                <div class="text-[10px] text-slate-500">
+                                    试试修改输入为：<span class="font-mono text-indigo-400 cursor-pointer" onclick="setLatexValue('V_{IL} \\le V_{IH} - 0.4V')">V_{IL} \le V_{IH} - 0.4V</span>
+                                </div>
+                            </div>
+                            <!-- Output -->
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between min-h-[128px]">
+                                <span class="text-xs font-semibold text-slate-400 block mb-2">排版系统高精度渲染呈现（KaTeX 引擎驱动）</span>
+                                <div class="flex-grow flex items-center justify-center bg-slate-950 rounded-lg p-4 relative border border-slate-800 overflow-x-auto no-scrollbar">
+                                    <div id="latex-output" class="text-white text-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: AI REVIEW SCANNER -->
+                    <div id="demo-tab-review" class="demo-tab-content space-y-6 hidden">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">02. 局部空间坐标高精度 AI 合规性预审</h3>
+                            <p class="text-xs text-slate-400 mt-1">
+                                模拟当工程师填错电气规范典型值时，本地 AI 审计助手如何瞬间触发逻辑报警、拦截差错：
+                            </p>
+                        </div>
+
+                        <!-- Parameter Table Mock -->
+                        <div class="relative overflow-hidden border border-slate-800 rounded-xl bg-slate-900" id="scan-table-container">
+                            <!-- Scanning bar -->
+                            <div class="scanner-line absolute left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-indigo-500 opacity-0 z-20 shadow-lg shadow-emerald-500/50"></div>
+                            
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                                        <th class="p-3">技术参数 / Symbols</th>
+                                        <th class="p-3">测试条件 / Conditions</th>
+                                        <th class="p-3">最小值 (Min)</th>
+                                        <th class="p-3">典型值 (Typ)</th>
+                                        <th class="p-3">最大值 (Max)</th>
+                                        <th class="p-3">单位 (Unit)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-800/50">
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">VDD</td>
+                                        <td class="p-3 text-slate-400">Power Supply Voltage</td>
+                                        <td class="p-3 text-slate-300">2.7</td>
+                                        <td class="p-3 text-slate-300">3.3</td>
+                                        <td class="p-3 text-slate-300">3.6</td>
+                                        <td class="p-3 text-slate-400 font-mono">V</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-800/50" id="error-row">
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">VIL</td>
+                                        <td class="p-3 text-slate-400">Low-Level Input Voltage</td>
+                                        <td class="p-3 text-slate-300">-0.3</td>
+                                        <td class="p-3 text-slate-300">-</td>
+                                        <td class="p-3 text-slate-300 font-bold transition-all duration-300" id="error-cell">2.4</td>
+                                        <td class="p-3 text-slate-400 font-mono">V</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-800/50">
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">VIH</td>
+                                        <td class="p-3 text-slate-400">High-Level Input Voltage</td>
+                                        <td class="p-3 text-slate-300" id="correct-cell">0.8</td>
+                                        <td class="p-3 text-slate-300">-</td>
+                                        <td class="p-3 text-slate-300">3.6</td>
+                                        <td class="p-3 text-slate-400 font-mono">V</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">ISB</td>
+                                        <td class="p-3 text-slate-400">Standby Current</td>
+                                        <td class="p-3 text-slate-300">-</td>
+                                        <td class="p-3 text-slate-300">12</td>
+                                        <td class="p-3 text-slate-300">15</td>
+                                        <td class="p-3 text-slate-400 font-mono">μA</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Trigger Button -->
+                        <div class="flex items-center justify-between gap-4">
+                            <button onclick="runAIScan()" id="btn-scan" class="px-6 py-2.5 bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-bold text-xs rounded-lg transition-all flex items-center space-x-2">
+                                <svg class="w-4 h-4 animate-spin hidden" id="scan-spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                <span id="scan-btn-text">点击开始一键 AI 预审</span>
+                            </button>
+                            <span class="text-xs text-slate-500" id="scan-status-text">数据安全局：芯片本地闭环模式 (NO-API-COST)</span>
+                        </div>
+
+                        <!-- Error Alert Card -->
+                        <div class="p-4 bg-red-500/5 border border-red-500/20 rounded-xl hidden flex items-start space-x-3" id="scan-alert">
+                            <span class="p-1 bg-red-500/10 text-red-400 rounded-lg shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            </span>
+                            <div>
+                                <h4 class="text-xs font-bold text-red-400">🚨 逻辑合规性警告 (电位极限矛盾)</h4>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    检测到最大输入低电平电压 <span class="font-mono text-red-300">VIL,max (2.4V)</span> 大于最小输入高电平电压 <span class="font-mono text-red-300">VIH,min (0.8V)</span>。该项参数设置将导致逻辑状态模糊，引发系统级判定逻辑死锁。请重点复核是否发生小数点点错或典型值颠倒。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: GRID DIFF VIEW -->
+                    <div id="demo-tab-diff" class="demo-tab-content space-y-6 hidden">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">03. 数字化规格书中参数的“格子级”Diff 比对系统</h3>
+                            <p class="text-xs text-slate-400 mt-1">
+                                抛弃过去传统Word通过划线删改造成的混乱，直接将规格书版本变化锁定在“格子单元”变色中，极其严密可靠：
+                            </p>
+                        </div>
+
+                        <!-- Diff Controls -->
+                        <div class="flex items-center space-x-3 bg-slate-900 border border-slate-800 p-2 rounded-xl max-w-xs">
+                            <button onclick="toggleDiffVersion('v10')" id="btn-diff-v10" class="flex-1 py-1 px-3 rounded text-xs font-semibold bg-slate-800 text-slate-200 transition-all">
+                                初始版本 v1.0
+                            </button>
+                            <button onclick="toggleDiffVersion('v11')" id="btn-diff-v11" class="flex-1 py-1 px-3 rounded text-xs font-semibold bg-transparent text-slate-400 hover:text-slate-200 transition-all">
+                                变更比对 v1.1
+                            </button>
+                        </div>
+
+                        <!-- Table Diff Mock -->
+                        <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                                        <th class="p-3">技术参数 / Symbols</th>
+                                        <th class="p-3">典型值 (v1.0)</th>
+                                        <th class="p-3">典型值 (v1.1)</th>
+                                        <th class="p-3">更新状态 / Changes Log</th>
+                                        <th class="p-3">修改人 / Auditor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-800/50">
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">VDD</td>
+                                        <td class="p-3 text-slate-400">3.3 V</td>
+                                        <td class="p-3 text-slate-300">3.3 V</td>
+                                        <td class="p-3 text-slate-500 font-mono">No Change</td>
+                                        <td class="p-3 text-slate-500">张工</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-800/50 transition-colors duration-300" id="diff-row-sb">
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">ISB (功耗参数)</td>
+                                        <td class="p-3 text-slate-400">15 μA</td>
+                                        <td class="p-3 text-slate-300 font-bold transition-all" id="diff-sb-new">15 μA</td>
+                                        <td class="p-3 text-slate-400 font-mono transition-all" id="diff-sb-badge">-</td>
+                                        <td class="p-3 text-slate-400 font-mono transition-all" id="diff-sb-user">张工</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-slate-300 font-mono">Theta_JA</td>
+                                        <td class="p-3 text-slate-400">40 ℃/W</td>
+                                        <td class="p-3 text-slate-300">40 ℃/W</td>
+                                        <td class="p-3 text-slate-500 font-mono">No Change</td>
+                                        <td class="p-3 text-slate-500">李工</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: PRINT ENGINE MOCK -->
+                    <div id="demo-tab-print" class="demo-tab-content space-y-6 hidden">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">04. 统一模板渲染引擎自动分页防截断</h3>
+                            <p class="text-xs text-slate-400 mt-1">
+                                手工用 Word 排版极耗精力和时间。统一输出模板在物理分页时能智能控制表格防截断，并在新页顶端自动续表头：
+                            </p>
+                        </div>
+
+                        <!-- Two column page simulation mockup -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Page 1 -->
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 relative overflow-hidden min-h-[220px]">
+                                <span class="absolute top-2 right-2 px-1.5 py-0.5 bg-slate-950 text-slate-500 text-[9px] font-mono rounded">PDF Page 1</span>
+                                <div class="text-[10px] text-slate-500 uppercase tracking-widest font-mono mb-2">电气参数描述 (表1)</div>
+                                <div class="space-y-2 text-[10px]">
+                                    <div class="h-3 bg-slate-800 rounded w-1/3"></div>
+                                    <div class="border border-slate-800 rounded bg-slate-950/40">
+                                        <div class="bg-slate-950 p-1.5 border-b border-slate-800 text-slate-400 font-bold">VDD Parameter Min Typ Max</div>
+                                        <div class="p-1.5 border-b border-slate-800 text-slate-300">VDD Supply 2.7 3.3 3.6</div>
+                                        <div class="p-1.5 text-slate-300">VIL Volt -0.3 - 0.8</div>
+                                    </div>
+                                    <div class="h-10 bg-slate-950 border border-slate-800 rounded flex items-center justify-center text-slate-500 text-[9px] border-dashed">
+                                        智能检测：此换页空隙不够排下下一行，自动移到下一页
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Page 2 -->
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 relative overflow-hidden min-h-[220px]">
+                                <span class="absolute top-2 right-2 px-1.5 py-0.5 bg-slate-950 text-slate-500 text-[9px] font-mono rounded">PDF Page 2</span>
+                                <div class="text-[10px] text-slate-500 uppercase tracking-widest font-mono mb-2">电气参数描述 (表1续)</div>
+                                <div class="space-y-2 text-[10px]">
+                                    <div class="border border-slate-800 rounded bg-slate-950/40">
+                                        <!-- Note Continued indicator -->
+                                        <div class="bg-indigo-950/50 p-1.5 border-b border-indigo-900/40 text-indigo-400 font-bold flex items-center justify-between">
+                                            <span>VDD Parameter Min Typ Max</span>
+                                            <span class="text-[8px] px-1 py-0.2 bg-indigo-500/10 rounded">Electrical Continued / 续表</span>
+                                        </div>
+                                        <div class="p-1.5 border-b border-slate-800 text-slate-300">VIH Volt 2.0 - 3.6</div>
+                                        <div class="p-1.5 text-slate-300">ISB Current - 12 15</div>
+                                    </div>
+                                    <div class="h-3 bg-slate-800 rounded w-1/4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footnote of Playground -->
+                    <div class="mt-8 pt-6 border-t border-slate-900 text-xs text-slate-500 flex justify-between items-center">
+                        <span>点击上方标签切换体验</span>
+                        <span class="font-mono text-emerald-400">MEODA DEMO WORKBENCH</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ROADMAP SECTION -->
+        <section id="roadmap" class="py-12 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">ROADMAP / 落地路线</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">小步快跑，分阶段低风险敏捷实施</h2>
+                <p class="text-slate-400 mt-4">
+                    本项目拒绝铺大摊子、无底线拖长上线周期的建设方案，采取阶段上线、持续见效的推进路线。
+                </p>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto">
+                <!-- Vertical Line for timeline -->
+                <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-slate-800"></div>
+
+                <div class="space-y-12">
+                    <!-- Phase 1 -->
+                    <div class="relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                        <!-- Dot -->
+                        <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-2 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-slate-950 z-20"></div>
+                        
+                        <div class="md:col-span-5 md:text-right bg-slate-900 p-6 border border-slate-800 rounded-xl hover:border-emerald-500/30 transition-all duration-300">
+                            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">PHASE 1 (首月上线)</span>
+                            <h3 class="text-lg font-bold text-white mt-1 mb-2">基础协同与智能 Review </h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                搭建飞书妙搭标准化元数据录入表单和审批。通过本地文档空间解析引擎，部署第一道 AI 辅助 Review 的合规与逻辑审查机制。
+                            </p>
+                            <span class="inline-block mt-3 px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 rounded">目标：降低肉眼Review工时，拦截缺陷</span>
+                        </div>
+                        <div class="hidden md:block md:col-span-2"></div>
+                        <div class="md:col-span-5 md:pt-4 text-xs text-slate-500">
+                            第一阶段将完成规格书从离线 Word 到多维/表格形式的关系存储。同时建立起完备的版本变更追溯，确保哪怕在此刻中止项目，公司也已经固化了绝大部分底层组织能力。
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                        <!-- Dot -->
+                        <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-2 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-slate-950 z-20"></div>
+                        
+                        <div class="hidden md:block md:col-span-5 md:pt-4 md:text-right text-xs text-slate-500">
+                            第二阶段重点打破排版局限，上线专业排版引擎。无需工程师拉线调间距，根据网页核心数据，自动渲染出带公司标准页眉、水印、分页无断行的合规技术 PDF。
+                        </div>
+                        <div class="hidden md:block md:col-span-2"></div>
+                        <div class="md:col-span-5 bg-slate-900 p-6 border border-slate-800 rounded-xl hover:border-indigo-500/30 transition-all duration-300">
+                            <span class="text-xs font-bold text-indigo-400 font-mono uppercase">PHASE 2 (三个月上线)</span>
+                            <h3 class="text-lg font-bold text-white mt-1 mb-2">闭环统一渲染与输出管理</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                引入 HTML/CSS 标准技术模板，部署后端统一渲染引擎。一键高一致性渲染规格书 PDF；上线参数级格子修订 Diff 看板与审计日志。
+                            </p>
+                            <span class="inline-block mt-3 px-2 py-0.5 text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 rounded">目标：完全免去工程师排版时间，标准化技术形象</span>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="relative grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                        <!-- Dot -->
+                        <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-2 w-4 h-4 rounded-full bg-purple-500 ring-4 ring-slate-950 z-20"></div>
+                        
+                        <div class="md:col-span-5 md:text-right bg-slate-900 p-6 border border-slate-800 rounded-xl hover:border-purple-500/30 transition-all duration-300">
+                            <span class="text-xs font-bold text-purple-400 font-mono uppercase">PHASE 3 (长远资产变现)</span>
+                            <h3 class="text-lg font-bold text-white mt-1 mb-2">企业级技术知识大中台</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                规格书参数树完全解耦，一键无缝灌入公司官网产品选型器（Web Selector）。资产系统向 App Note 笔记、测试报告等领域平行衍生。
+                            </p>
+                            <span class="inline-block mt-3 px-2 py-0.5 text-[10px] font-semibold bg-purple-500/10 text-purple-400 rounded">目标：发挥工程知识资产的终极商业与营销价值</span>
+                        </div>
+                        <div class="hidden md:block md:col-span-2"></div>
+                        <div class="md:col-span-5 md:pt-4 text-xs text-slate-500">
+                            让数据开始自动运转。官网自动同步最新发布参数，向外提供干净的 API 接口；同时为公司私有化大模型机器人提供清洗后、零杂音的技术参数语料源，构筑企业的工程知识中台。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- APPENDIX (TECHNICAL BACKING) SECTION -->
+        <section class="py-12 border-t border-slate-900">
+            <h2 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-6 font-mono">TECHNICAL APPENDIX / 附录：核心技术底座经营层转译说明</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-5 bg-slate-950 border border-slate-900 rounded-xl">
+                    <h3 class="text-sm font-bold text-slate-200 mb-2">布局感知文档解析能力</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        系统引入行业领先的本地高吞吐文档提取思路。核心在于在提取文本的同时精准绑定每个技术字符的页面物理定位。通过此技术，系统可以在私有化环境下保留复杂技术表格及参数物理布局，提升 AI 对高密度工程文档的语义理解力，实现零泄密、高精度识别。
+                    </p>
+                </div>
+                <div class="p-5 bg-slate-950 border border-slate-900 rounded-xl">
+                    <h3 class="text-sm font-bold text-slate-200 mb-2">国产化工业符号增强能力</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        系统在私有化部署时，针对特殊扫描图片等低质技术文档，专门向后兼容对接国内最强的国产化工业识别组件。相比传统的英文开源框架，大幅提升了对芯片级特殊电气符号（如 $\mu\text{A}$、$\text{mA}$、$\theta_{JA}$）在多栏排版布局下的高准确度识别。
+                    </p>
+                </div>
+                <div class="p-5 bg-slate-950 border border-slate-900 rounded-xl">
+                    <h3 class="text-sm font-bold text-slate-200 mb-2">网页级高一致性渲染能力</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        采用高阶的网页级技术排版渲染插件。不再依赖脆弱的 Word PDF 转换驱动，直接抓取结构化 JSON，控制内网虚拟环境渲染标准网页并输出。依托前端 `page-break` 现代分页指令约束，从根本上终结跨页表格、公式、引脚图截断失真，打造极致技术形象。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-12 relative z-10 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-slate-500 space-y-3">
+            <p>© 2026 Meoda AI-Datasheet Project Committee. 面向企业研发数字基础设施建设的技术白皮书提案.</p>
+            <p>基于“飞书妙搭 + 结构化参数库 + 本地 AI 协同 Review”混合敏捷开发思路</p>
+        </div>
+    </footer>
+
+    <!-- JS Scripts for interactive elements -->
+    <script>
+        // Init KaTeX Formula Render on Page Load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateLatexPreview();
+            calculateROI();
+        });
+
+        // 1. Tab switches for Architecture section
+        function switchArchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.arch-tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active button style, reset others
+            document.querySelectorAll('.arch-toggle-btn').forEach(btn => {
+                btn.classList.remove('border-emerald-500/30', 'bg-slate-950/80', 'text-white');
+                btn.classList.add('border-slate-800', 'bg-transparent', 'text-slate-400');
+            });
+
+            // Show current active content
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            // Set active style for selected button
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('border-slate-800', 'bg-transparent', 'text-slate-400');
+            activeBtn.classList.add('border-emerald-500/30', 'bg-slate-950/80', 'text-white');
+        }
+
+        // 2. Tab switches for Demo section
+        function switchDemoTab(demoTabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.demo-tab-content').forEach(el => el.classList.add('hidden'));
+            // Reset tab buttons
+            document.querySelectorAll('.demo-tab-btn').forEach(btn => {
+                btn.className = "demo-tab-btn w-full text-left p-3 rounded-lg border border-transparent hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-sm font-semibold flex items-center space-x-2 transition-all";
+                // Reset indicator dot
+                const dot = btn.querySelector('span');
+                if (dot) dot.className = "w-1.5 h-1.5 bg-slate-700 rounded-full";
+            });
+
+            // Show active tab
+            document.getElementById(`demo-tab-${demoTabId}`).classList.remove('hidden');
+            // Set active button style
+            const activeBtn = document.getElementById(`demo-tab-btn-${demoTabId}`);
+            activeBtn.className = "demo-tab-btn w-full text-left p-3 rounded-lg border border-emerald-500/20 bg-slate-900 text-emerald-400 text-sm font-semibold flex items-center space-x-2 transition-all";
+            const activeDot = activeBtn.querySelector('span');
+            if (activeDot) activeDot.className = "w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse";
+
+            // If switching to latex tab, ensure KaTeX updates properly
+            if (demoTabId === 'latex') {
+                updateLatexPreview();
+            }
+        }
+
+        // Tab 1: LaTeX renderer logic
+        function updateLatexPreview() {
+            const input = document.getElementById('latex-input').value;
+            const output = document.getElementById('latex-output');
+            if (window.katex) {
+                try {
+                    window.katex.render(input, output, {
+                        throwOnError: false,
+                        displayMode: true
+                    });
+                } catch (e) {
+                    output.innerHTML = `<span class="text-red-500 text-xs">${e.message}</span>`;
+                }
+            } else {
+                output.innerHTML = `<span class="text-slate-500 font-mono text-xs">渲染引擎加载中...</span>`;
+            }
+        }
+
+        function setLatexValue(val) {
+            document.getElementById('latex-input').value = val;
+            updateLatexPreview();
+        }
+
+        // Tab 2: AI Review Scanner Logic
+        function runAIScan() {
+            const btn = document.getElementById('btn-scan');
+            const spinner = document.getElementById('scan-spinner');
+            const btnText = document.getElementById('scan-btn-text');
+            const container = document.getElementById('scan-table-container');
+            const errorRow = document.getElementById('error-row');
+            const errorCell = document.getElementById('error-cell');
+            const alertBox = document.getElementById('scan-alert');
+            const statusText = document.getElementById('scan-status-text');
+
+            // Reset UI states
+            alertBox.classList.add('hidden');
+            errorRow.classList.remove('bg-red-500/10');
+            errorCell.classList.remove('text-red-400', 'bg-red-500/20', 'ring-2', 'ring-red-500/40');
+            container.classList.add('scanning');
+            
+            // Disable button during scanning
+            btn.disabled = true;
+            spinner.classList.remove('hidden');
+            
+            let progress = 0;
+            const progressTexts = [
+                "1. 正在调取内网文档空间布局...",
+                "2. 正在进行高斯多维格式清洗...",
+                "3. 正在进行国产符号高精度辨识...",
+                "4. 正在比对芯片电气电压极值规则..."
+            ];
+
+            const interval = setInterval(() => {
+                if (progress < progressTexts.length) {
+                    btnText.innerText = progressTexts[progress];
+                    progress++;
+                } else {
+                    clearInterval(interval);
+                    
+                    // Stop scanning animation
+                    container.classList.remove('scanning');
+                    spinner.classList.add('hidden');
+                    btn.disabled = false;
+                    btnText.innerText = "重新执行 AI 审计";
+
+                    // Highlight the error row and error cell
+                    errorRow.classList.add('bg-red-500/5');
+                    errorCell.classList.add('text-red-400', 'bg-red-500/20', 'ring-2', 'ring-red-500/40');
+                    
+                    // Show error diagnostic alert card with animation
+                    alertBox.classList.remove('hidden');
+                    alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 600);
+        }
+
+        // Tab 3: Grid Diff Version Toggle
+        function toggleDiffVersion(version) {
+            const btn10 = document.getElementById('btn-diff-v10');
+            const btn11 = document.getElementById('btn-diff-v11');
+            const diffRow = document.getElementById('diff-row-sb');
+            const diffNew = document.getElementById('diff-sb-new');
+            const diffBadge = document.getElementById('diff-sb-badge');
+            const diffUser = document.getElementById('diff-sb-user');
+
+            if (version === 'v10') {
+                // Set button state
+                btn10.className = "flex-1 py-1 px-3 rounded text-xs font-semibold bg-slate-800 text-slate-200 transition-all";
+                btn11.className = "flex-1 py-1 px-3 rounded text-xs font-semibold bg-transparent text-slate-400 hover:text-slate-200 transition-all";
+                
+                // Reset Row State
+                diffRow.className = "border-b border-slate-800/50 transition-colors duration-300";
+                diffNew.innerText = "15 μA";
+                diffNew.className = "p-3 text-slate-300";
+                diffBadge.innerHTML = `<span class="text-slate-500 font-mono">No Change</span>`;
+                diffUser.innerText = "张工";
+            } else {
+                // Set button state
+                btn11.className = "flex-1 py-1 px-3 rounded text-xs font-semibold bg-slate-800 text-slate-200 transition-all";
+                btn10.className = "flex-1 py-1 px-3 rounded text-xs font-semibold bg-transparent text-slate-400 hover:text-slate-200 transition-all";
+                
+                // Diff Row Changed State
+                diffRow.className = "border-b border-amber-500/10 bg-amber-500/5 transition-colors duration-300";
+                diffNew.innerText = "12 μA";
+                diffNew.className = "p-3 text-amber-300 font-bold bg-amber-500/15 rounded ring-1 ring-amber-500/30";
+                diffBadge.innerHTML = `<span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded text-[10px] font-semibold border border-amber-500/20">参数变动 (-20% 功耗降)</span>`;
+                diffUser.innerText = "李工 (应用审核)";
+            }
+        }
+
+        // 3. Dynamic ROI calculation logic
+        function calculateROI() {
+            // Get slider values
+            const count = parseInt(document.getElementById('slider-datasheet-count').value);
+            const hours = parseInt(document.getElementById('slider-hourly-cost').value);
+            const salary = parseInt(document.getElementById('slider-salary-rate').value);
+
+            // Update DOM label displays
+            document.getElementById('val-datasheet-count').innerText = count.toLocaleString();
+            document.getElementById('val-hourly-cost').innerText = hours.toLocaleString();
+            document.getElementById('val-salary-rate').innerText = salary.toLocaleString();
+
+            // Formula Logic
+            // Current Annual hours: Count * Hours
+            const currentHours = count * hours;
+            // New annual hours (with automated templated renderer and AI Review, savings > 90% in formatting, and 80% in review)
+            // It realistically shrinks the process to a standard 4 hours per doc including final human check.
+            const newHours = count * 4; 
+            const hoursSaved = currentHours - newHours;
+            
+            // Financial savings
+            const moneySaved = hoursSaved * salary;
+            const efficiencyLift = Math.round(((hours - 4) / hours) * 100);
+
+            // Update output displays
+            document.getElementById('val-hours-saved').innerText = hoursSaved.toLocaleString();
+            document.getElementById('val-efficiency-lift').innerText = `${efficiencyLift}%`;
+            document.getElementById('val-money-saved').innerText = moneySaved.toLocaleString();
+        }
+    </script>
+</body>
 </html>
